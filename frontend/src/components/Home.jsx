@@ -1,4 +1,4 @@
-function Home() {
+const Home = () => {
   return (
     <div className="hospital-bg" style={styles.hospitalBg}>
       <div className="container" style={styles.container}>

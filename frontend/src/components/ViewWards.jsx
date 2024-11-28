@@ -3,31 +3,31 @@ import { Card, Table } from 'react-bootstrap';
 import { Pencil, Trash } from 'react-bootstrap-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const ViewWards = () => {
+const ViewWards = ({wards}) => {
   // Sample hardcoded data
-  const wards = [
-    {
-      ward_id: "W101",
-      ward_name: "Cardiology",
-      number_beds: 20,
-      nurse_in_charge: "Sarah Williams",
-      ward_type: "Specialty Care"
-    },
-    {
-      ward_id: "W102",
-      ward_name: "General Medicine",
-      number_beds: 30,
-      nurse_in_charge: "John Davis",
-      ward_type: "General Care"
-    },
-    {
-      ward_id: "W103",
-      ward_name: "Pediatrics",
-      number_beds: 15,
-      nurse_in_charge: "Emily Thompson",
-      ward_type: "Children's Care"
-    }
-  ];
+  // const wards = [
+  //   {
+  //     ward_id: "W101",
+  //     ward_name: "Cardiology",
+  //     number_beds: 20,
+  //     nurse_in_charge: "Sarah Williams",
+  //     ward_type: "Specialty Care"
+  //   },
+  //   {
+  //     ward_id: "W102",
+  //     ward_name: "General Medicine",
+  //     number_beds: 30,
+  //     nurse_in_charge: "John Davis",
+  //     ward_type: "General Care"
+  //   },
+  //   {
+  //     ward_id: "W103",
+  //     ward_name: "Pediatrics",
+  //     number_beds: 15,
+  //     nurse_in_charge: "Emily Thompson",
+  //     ward_type: "Children's Care"
+  //   }
+  // ];
 
   const handleEdit = (wardId) => {
     console.log(`Edit ward ${wardId}`);
