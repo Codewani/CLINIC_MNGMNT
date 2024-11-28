@@ -85,7 +85,7 @@ const ViewPatients = ({patients}) => {
                 <td>{patient.post_code}</td>
                 <td>{patient.admission}</td>
                 <td>{patient.DOB}</td>
-                <td>{patient.ward_id}</td>
+                <td>{patient.ward}</td>
                 <td>{patient.next_of_kin}</td>
                 <td>
                   <button

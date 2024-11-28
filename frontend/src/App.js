@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './App.css';
 import NavBar from './components/NavBar'
 import CreatePatient from './components/CreatePatient';
@@ -20,11 +21,11 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect')
-    let wards = service.getAll('wards').then(initalState => {
+    service.getAll('wards').then(initalState => {
         console.log('promise fulfilled')
         setWards(initalState)
       })
-    let patients = service.getAll('patients').then(initalState => {
+    service.getAll('patients').then(initalState => {
         console.log('promise fulfilled')
         setPatients(initalState)
       })
@@ -37,7 +38,7 @@ const App = () => {
         <Routes>
           {/* Home page route */}
           <Route path="/" element={<Home />} />
-          <Route path="/CreatePatient" element={<CreatePatient />} />
+          <Route path="/CreatePatient" element={<CreatePatient patients={patients} wards={wards}/>} />
           <Route path="/CreateWard" element={<CreateWard />} />
           <Route path="/ViewPatients" element={<ViewPatients patients={patients}/>} />
           <Route path="/ViewWards" element={<ViewWards wards={wards}/>} />

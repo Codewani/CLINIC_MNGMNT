@@ -1,133 +1,133 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-// Custom CSS to match the original styling
-const styles = {
-  formControl: {
-    border: 'none',
-    borderBottom: '2.3px solid #59cc55',
-    borderRadius: 0,
-    outline: 'none',
-  },
-  formGroup: {
-    marginBottom: '2rem',
-  },
-  card: {
-    border: '2px solid #e9cdcd',
-  },
-  navItem: {
-    '&:hover': {
-      color: 'rgb(39, 235, 98)',
-    },
-  },
-};
+import service from '../services/clinic.js'
 
 const WardForm = () => {
-  const [formData, setFormData] = useState({
+  const initForm = {
     ward_id: '',
     ward_name: '',
     number_beds: '',
     nurse_in_charge: '',
     ward_type: '',
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
   };
+  const [formData, setFormData] = useState(initForm);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Submitting data:', JSON.stringify(formData, null, 2));
+    service.create(formData, 'wards/').then(newPatient => {
+      console.log(newPatient);
+    });
+
+    setFormData(initForm)
   };
 
   return (
     <Container className="mt-5">
       <Row className="justify-content-center">
-        <Col md={6}>
-          <Card style={styles.card}>
-            <Card.Body>
-              <Card.Title className="text-center">Ward Information</Card.Title>
+        <Col md={8} lg={6}>
+          <Card 
+            className="shadow-sm border-0" 
+            style={{
+              background: 'linear-gradient(to right, #f0f8ff, #e6f2ff)',
+              borderBottom: '3px solid #4a90e2'
+            }}
+          >
+            <Card.Body className="p-4">
+              <Card.Title className="text-center text-primary mb-4 fw-bold">
+                <i className="bi bi-building-add me-2"></i>
+                Register New Ward
+              </Card.Title>
               <Form onSubmit={handleSubmit}>
-                <Form.Group style={styles.formGroup}>
-                  <Form.Label htmlFor="ward_id">Ward ID:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="ward_id"
-                    id="ward_id"
-                    required
-                    maxLength={20}
-                    value={formData.ward_id}
-                    onChange={handleChange}
-                    style={styles.formControl}
-                  />
-                </Form.Group>
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label className="text-primary">Ward ID</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="ward_id"
+                        required
+                        maxLength={20}
+                        value={formData.ward_id}
+                        onChange={handleChange}
+                        className="border-primary"
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label className="text-primary">Ward Name</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="ward_name"
+                        required
+                        maxLength={100}
+                        value={formData.ward_name}
+                        onChange={handleChange}
+                        className="border-primary"
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
 
-                <Form.Group style={styles.formGroup}>
-                  <Form.Label htmlFor="ward_name">Ward Name:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="ward_name"
-                    id="ward_name"
-                    required
-                    maxLength={100}
-                    value={formData.ward_name}
-                    onChange={handleChange}
-                    style={styles.formControl}
-                  />
-                </Form.Group>
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label className="text-primary">Number of Beds</Form.Label>
+                      <Form.Control
+                        type="number"
+                        name="number_beds"
+                        required
+                        value={formData.number_beds}
+                        onChange={handleChange}
+                        className="border-primary"
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label className="text-primary">Nurse in Charge</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name="nurse_in_charge"
+                        required
+                        maxLength={100}
+                        value={formData.nurse_in_charge}
+                        onChange={handleChange}
+                        className="border-primary"
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
 
-                <Form.Group style={styles.formGroup}>
-                  <Form.Label htmlFor="number_beds">Number of Beds:</Form.Label>
-                  <Form.Control
-                    type="number"
-                    name="number_beds"
-                    id="number_beds"
-                    required
-                    value={formData.number_beds}
-                    onChange={handleChange}
-                    style={styles.formControl}
-                  />
-                </Form.Group>
-
-                <Form.Group style={styles.formGroup}>
-                  <Form.Label htmlFor="nurse_in_charge">Nurse in Charge:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    name="nurse_in_charge"
-                    id="nurse_in_charge"
-                    required
-                    maxLength={100}
-                    value={formData.nurse_in_charge}
-                    onChange={handleChange}
-                    style={styles.formControl}
-                  />
-                </Form.Group>
-
-                <Form.Group style={styles.formGroup}>
-                  <Form.Label htmlFor="ward_type">Ward Type:</Form.Label>
+                <Form.Group className="mb-3">
+                  <Form.Label className="text-primary">Ward Type</Form.Label>
                   <Form.Control
                     type="text"
                     name="ward_type"
-                    id="ward_type"
                     maxLength={100}
                     value={formData.ward_type}
                     onChange={handleChange}
-                    style={styles.formControl}
+                    className="border-primary"
                   />
                 </Form.Group>
 
                 <Button 
-                  variant="success" 
+                  variant="primary" 
                   type="submit" 
-                  className="w-100"
+                  className="w-100 mt-3"
                 >
-                  Register
+                  <i className="bi bi-plus-circle me-2"></i>
+                  Register Ward
                 </Button>
               </Form>
             </Card.Body>

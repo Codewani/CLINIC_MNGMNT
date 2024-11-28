@@ -6,8 +6,8 @@ const getAll = (table) => {
   return request.then(response => response.data)
 }
 
-const create = newObject => {
-  const request = axios.post(baseUrl, newObject)
+const create = (newObject, table) => {
+  const request = axios.post(`${baseUrl}/${table}`, newObject)
   return request.then(response => response.data)
 }
 

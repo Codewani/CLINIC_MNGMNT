@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'clinic_backend'
+    'clinic_backend',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
