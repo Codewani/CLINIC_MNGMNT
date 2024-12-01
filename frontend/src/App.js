@@ -11,6 +11,7 @@ import CreateWard from './components/CreateWard';
 import ViewPatients from './components/ViewPatients';
 import ViewWards from './components/ViewWards';
 import Home from './components/Home';
+import AiRetrieval from './components/AiRetrieval'
 import service from './services/clinic'
 
 
@@ -42,9 +43,8 @@ const App = () => {
           <Route path="/CreateWard" element={<CreateWard />} />
           <Route path="/ViewPatients" element={<ViewPatients patients={patients}/>} />
           <Route path="/ViewWards" element={<ViewWards wards={wards}/>} />
-
+          <Route path="/AiRetrieval" element={<AiRetrieval />} />
           {/* AI Diagnostic route 
-          <Route path="/Diagnostic" element={<Diagnostic />} />
 
           {/* Enter Records routes 
 

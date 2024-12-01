@@ -30,7 +30,7 @@ const Navbar = () => {
           <ul className="navbar-nav mx-auto">
             {/* AI Diagnostic */}
             <li className="nav-item">
-              <a className="nav-link text-primary" href="#">
+              <a className="nav-link text-primary" href="/AiRetrieval">
                 <i className="bi bi-robot me-1"></i>Ai Retriever
               </a>
             </li>
