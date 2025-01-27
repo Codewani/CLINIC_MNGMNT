@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import OpenAI from 'openai';
+import service from '../services/clinic'
 
 const AiRetrieval = () => {
   const [query, setQuery] = useState('');
@@ -7,11 +7,6 @@ const AiRetrieval = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Initialize OpenAI client
-  const openai = new OpenAI({
-    apiKey: process.env.REACT_APP_OPENAI_API_KEY,
-    dangerouslyAllowBrowser: true // Note: In production, make API calls from backend
-  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,25 +14,9 @@ const AiRetrieval = () => {
     setError(null);
     
     try {
-      const completion = await openai.chat.completions.create({
-        messages: [
-          {
-            role: "system",
-            content: "You are a medical AI assistant. Analyze the medical query and provide a diagnosis, confidence level, and recommendations. Structure your response in JSON format with keys: diagnosis, confidence (a number between 0-100), and recommendations (an array of strings)."
-          },
-          {
-            role: "user",
-            content: query
-          }
-        ],
-        model: "gpt-3.5-turbo",
-        temperature: 0.7,
-        max_tokens: 500,
-        response_format: { type: "json_object" }
-      });
 
-      // Parse the JSON response
-      const aiResponse = JSON.parse(completion.choices[0].message.content);
+      const aiResponse = await service.create({ message: query }, "Ai/")
+
       setResults(aiResponse);
       setLoading(false);
     } catch (err) {
@@ -96,39 +75,27 @@ const AiRetrieval = () => {
             {/* Results Section */}
             {results && (
               <div className="mt-4 p-3 bg-light rounded">
-                <h3 className="h5 mb-3">Analysis Results</h3>
-                <div>
-                  <div className="mb-3">
-                    <h4 className="h6 text-muted">Diagnosis:</h4>
-                    <p>{results.diagnosis}</p>
-                  </div>
-                  <div className="mb-3">
-                    <h4 className="h6 text-muted">Confidence Score:</h4>
-                    <div className="progress mb-2">
-                      <div 
-                        className="progress-bar bg-primary" 
-                        role="progressbar" 
-                        style={{ width: `${results.confidence}%` }}
-                        aria-valuenow={results.confidence}
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                    <small className="text-muted">
-                      {results.confidence}% confidence
-                    </small>
-                  </div>
-                  <div>
-                    <h4 className="h6 text-muted">Recommendations:</h4>
-                    <ul className="list-group list-group-flush">
-                      {results.recommendations.map((rec, index) => (
-                        <li key={index} className="list-group-item bg-transparent">
-                          {rec}
-                        </li>
+                <h3 className="h5 mb-3">Patient Details</h3>
+                  <table className="table table-striped">
+                    <thead>
+                      <tr>
+                        {results.length > 0 && 
+                          Object.keys(results[0]).map((key) => (
+                            <th key={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</th>
+                          ))
+                        }
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {results.map((patient, index) => (
+                        <tr key={index}>
+                          {Object.values(patient).map((value, valueIndex) => (
+                            <td key={valueIndex}>{value}</td>
+                          ))}
+                        </tr>
                       ))}
-                    </ul>
-                  </div>
-                </div>
+                    </tbody>
+                  </table>
               </div>
             )}
 
