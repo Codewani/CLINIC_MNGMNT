@@ -87,6 +87,12 @@ DATABASES = {
         'PASSWORD': 'Wongani1234@',
         'HOST': '127.0.0.1',  # or the hostname where your MySQL server is running
         'PORT': '3306',      # or the port on which your MySQL server is listening
+        'TEST': {
+            'NAME': 'test_clinic',
+            'CHARSET': 'utf8mb4',        
+            'COLLATION': 'utf8mb4_unicode_ci',
+
+        }
     }
 }
 

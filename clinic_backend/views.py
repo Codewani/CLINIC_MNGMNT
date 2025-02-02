@@ -56,7 +56,7 @@ class AiView(APIView):
             messages=[
                 {
                     "role": "system", 
-                    "content": f"You task is to write a MySQL query based on the user's input. The query should not make any changes to the database and should solely be used for data retrieval using only 'SELECT' queries. Here is my schema to help you determine how to write the SELECT command: {schema}. Your response should only contain the SQL command. Do not say things like 'Sure here is your response'. No special characters just the MYSQL resonse. USE the LIKE operation when searching for names"
+                    "content": f"You task is to write a MySQL query based on the user's input. The query should not make any changes to the database and should solely be used for data retrieval using only 'SELECT' queries. Here is my schema to help you determine how to write the SELECT command: {schema}. Your response should only contain the SQL command. Do not say things like 'Sure here is your response'. No special characters just the MYSQL resonse. USE the LIKE operation when searching for names and use wildcards'%' where necessary"
                 },
                 {
                     "role": "user",
@@ -70,5 +70,6 @@ class AiView(APIView):
         with connection.cursor() as cursor:
             cursor.execute(query)
             results = dictfetchall(cursor)
+        print(results)
         return JsonResponse(results, safe=False)
 
